@@ -33,17 +33,18 @@ class AdminController extends Controller
             echo "success login";
             Session::put('admin_id', $result->id);
             Session::put('admin_email', $result->email);
-            echo $admin_id = session('admin_id');
-            echo $admin_email = session('admin_email');
-
+            $admin_id = session('admin_id');
+             $admin_email = session('admin_email');
+            return redirect('admin/dashboard');
         }else{
             $request->session()->flash('error','Please enter valid username and password');
             return view('admin/login');
         }
     }
-    public function create()
+    public function dashboard()
     {
-        //
+        echo "dashbpoard";
+        return view('admin.dashboard');
     }
 
     /**
