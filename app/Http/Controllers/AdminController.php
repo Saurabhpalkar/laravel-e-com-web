@@ -17,43 +17,52 @@ class AdminController extends Controller
      */
     public function index()
     {
+        if (Session::has('admin_id')) {
+            
+            return redirect('admin.dashboard');
+            // return redirect()->route('admin')->withErrors(['message' => 'Please log in first.']);
+        }
         return view('admin/login');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+   
     public function auth(Request $request){
-        // var_dump($request->post());
         $email = $request->post('email');
+        $check_email = Admin::where(['email'=>$email])->first();
         $password = $request->post('password');
-        $result = Admin::Where(['email'=>$email,'password'=>$password])->first();
-        // print_r($result);
-        if($result){
-            echo "success login";
-            Session::put('admin_id', $result->id);
-            Session::put('admin_email', $result->email);
-            $admin_id = session('admin_id');
-             $admin_email = session('admin_email');
-            return redirect('admin/dashboard');
+        // $result = Admin::Where(['email'=>$email,'password'=>$password])->first();
+        if($check_email){
+            if(Hash::check($password,$check_email->password)){
+                Session::put('admin_id', $check_email->id);
+                Session::put('admin_email', $check_email->email);
+                $admin_id = session('admin_id');
+                 $admin_email = session('admin_email');
+                return redirect('admin.dashboard');
+            }else{
+                $request->session()->flash('error','Please enter valid password');
+                return view('admin/login');
+            }
+            
         }else{
-            $request->session()->flash('error','Please enter valid username and password');
+            $request->session()->flash('error','Please enter valid username');
             return view('admin/login');
         }
+    
     }
     public function dashboard()
     {
-        echo "dashbpoard";
         return view('admin.dashboard');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    // public function updatePassword(Request $request)
+    // {
+    //     $pass_upd = Admin::find(1);
+    //     $pass_upd->password = Hash::make('123');
+    //     $pass_upd->save();
+    // }
 
     /**
      * Display the specified resource.

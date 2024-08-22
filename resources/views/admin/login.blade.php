@@ -42,13 +42,19 @@
                 <div class="login-wrap">
                     <div class="login-content">
                         <div class="login-logo">
-                            <a href="#">
+                            {{Config::get('constants.SITE_NAME')}}   
+                        <!-- <a href="#">
                                 <img src="images/icon/logo.png" alt="CoolAdmin">
-                            </a>
+                            </a> -->
                         </div>
                         <div class="login-form">
+                            @if ($errors->has('message'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('message') }}
+                            </div>
+                            @endif
                             <form action="{{route('admin.auth')}}" method="post">
-                            @csrf
+                                @csrf
                                 <div class="form-group">
                                     <label>Email Address</label>
                                     <input class="au-input au-input--full" type="email" name="email" placeholder="Email">
@@ -66,9 +72,11 @@
                                     </label>
                                 </div>
                                 <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
+                                @if(session('error'))
                                 <div class="alert alert-danger">
                                     {{session('error')}}
                                 </div>
+                                @endif
                                 <!-- <div class="social-login-content">
                                     <div class="social-button">
                                         <button class="au-btn au-btn--block au-btn--blue m-b-20">sign in with facebook</button>
