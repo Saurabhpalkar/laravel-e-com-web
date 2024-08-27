@@ -1,5 +1,5 @@
 @extends('admin/layout');
-@section('page_title',Manage Category');
+@section('page_title','Manage Category');
 @section('container')
 
 <div class="col-lg-6">

@@ -12,7 +12,8 @@ class CouponController extends Controller
      */
     public function index()
     {
-       return view('admin.coupon');
+        $results = Coupon::all();
+        return view('admin.coupon', compact('results'));
     }
 
     /**
@@ -21,8 +22,7 @@ class CouponController extends Controller
     public function addCouponForm()
     {
         //
-       return view('admin.add_coupon');
-
+        return view('admin.add_coupon');
     }
 
     /**
@@ -30,40 +30,70 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        echo "insert";
-        return redirect()->route('admin.add_coupon')->with('message', 'Category not found.');
 
+
+        if ($request->has('id') && !empty($request->id)) {
+            $coupon = Coupon::find($request->id);
+            if (!$coupon) {
+                return redirect()->back()->with('error', 'Coupon not found.');
+            }
+
+            $msg = "Coupon updated successfully.";
+        } else {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'code' => 'required|string|max:50|unique:coupons,code,' . $request->id,
+                'value' => 'required|numeric|min:1',
+            ]);
+            $coupon = new Coupon();
+            $msg = "Coupon added successfully.";
+        }
+
+        $coupon->title = $request->post('title');
+        $coupon->code = $request->post('code');
+        $coupon->value = $request->post('value');
+        $coupon->status = 1;
+
+        $coupon->save();
+
+        return redirect()->route('admin.coupon')->with('message', $msg);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Coupon $coupon)
+    public function show($id)
     {
-        //
+        $results = Coupon::where('id', $id)->first();
+        // print_r($results); die();
+        return view('admin.add_coupon', compact('results'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Coupon $coupon)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Coupon $coupon)
+    public function delete(Request $request,$id)
     {
-        //
+        $coupon = Coupon::find($id);
+        if($coupon){
+            $coupon->delete();
+            return redirect()->route('admin.coupon')->with('message','Coupen deleted successfully');
+        }else{
+            return back()->with('message', 'Category not found.');
+        }
     }
+    public function update_status($id, $status){
+        $category = Coupon::find($id);
+        if($status==1){
+            $msg = "activated";
+        }else{
+            $msg = "deactivated";
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Coupon $coupon)
-    {
-        //
+        }
+        if($category){
+            $category->status = $status;
+            $category->save();
+            return redirect()->route('admin.coupon')->with('message', 'Coupon '.$msg.' successfully.');
+        }else{
+            return redirect()->back('admin.coupon')->with('message', 'Coupon not found.');
+        }
     }
 }

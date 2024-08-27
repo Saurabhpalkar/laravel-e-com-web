@@ -48,8 +48,10 @@ class CategoryController extends Controller
     }
         $category_name = $request->post('category');
         $category_slug = $request->post('category_slug');
+        $status = 1;
         $category->caregory_name = $category_name ;
         $category->caregory_slug = $category_slug ;
+        $category->status = $status ;
         $save_success  = $category->save();
         $request->session()->flash('message', $msg);
         return redirect('admin.category');
@@ -85,7 +87,24 @@ class CategoryController extends Controller
         // return view('admin.category.edit', compact('category'));
 
 
-    }   
+    }  
+    
+    public function update_status($id, $status){
+        $category = Category::find($id);
+        if($status==1){
+            $msg = "activated";
+        }else{
+            $msg = "deactivated";
+
+        }
+        if($category){
+            $category->status = $status;
+            $category->save();
+            return redirect()->route('admin.category')->with('message', 'Category '.$msg.' successfully.');
+        }else{
+            return redirect()->back('admin.category')->with('message', 'Category not found.');
+        }
+    }
 
     
 }

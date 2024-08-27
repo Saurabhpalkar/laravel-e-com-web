@@ -1,6 +1,7 @@
 @extends('admin/layout');
 @section('container');
 @section('page_title','Category');
+@section('category_active','active');
 <div class="col-lg-12">
     <div>
         @if(session('message'))
@@ -36,13 +37,18 @@
                     <td>{{$row->caregory_name}}</td>
                     <td>{{$row->caregory_slug}}</td>
                     <td class="text-right">
+                    <a class="btn btn-primary" href="{{route('admin.category.edit', $row->id)}}">Edit</a>
                     <form action="{{ route('admin.category.delete', $row->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?');" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>|
+                        <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
-                    <a class="btn btn-primary" href="{{route('admin.category.edit', $row->id)}}">Edit</a>
+                    @if($row->status == 1)
+                    <a class="btn btn-warning" href="{{route('admin.category.status',[$row->id,0])}}">Deactive</a>
+                    @else
+                    <a class="btn btn-success" href="{{route('admin.category.status', [$row->id,1] )}}">Active</a>
 
+                    @endif
 
                     </td>
                 </tr>

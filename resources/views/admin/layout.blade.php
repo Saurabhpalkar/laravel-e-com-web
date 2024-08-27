@@ -60,7 +60,7 @@
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                             <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-                                <li>
+                                <!-- <li>
                                     <a href="index.html">Dashboard 1</a>
                                 </li>
                                 <li>
@@ -71,10 +71,10 @@
                                 </li>
                                 <li>
                                     <a href="index4.html">Dashboard 4</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="chart.html">
                                 <i class="fas fa-chart-bar"></i>Charts</a>
                         </li>
@@ -93,7 +93,7 @@
                         <li>
                             <a href="map.html">
                                 <i class="fas fa-map-marker-alt"></i>Maps</a>
-                        </li>
+                        </li> -->
                         <li class="has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-copy"></i>Pages</a>
@@ -126,41 +126,55 @@
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
-                        <li class="active has-sub">
-                            <a class="js-arrow" href="#">
+                        <li class="@yield('dash_active')">
+                            <a class="" href="{{route('admin.dashboard')}}">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                <li>
+                            <!-- <ul class="list-unstyled navbar__sub-list js-sub-list"> -->
+                                <!-- <li>
                                     <a href="{{route('admin.dashboard')}}">Dashboard 1</a>
-                                </li>
+                                </li> -->
                                
-                            </ul>
+                            <!-- </ul> -->
                         </li>
                       
-                        <li class="has-sub">
-                            <a class="js-arrow" href="#">
-                                <i class="fas fa-copy"></i>Category</a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                <li>
-                                    <a href="{{ route('admin.category')}}">Category</a>
+                        <li class="@yield('category_active')">
+                            <a class="" href="{{ route('admin.category')}}">
+                                <i class="fas fa-list"></i>Category</a>
+                            <!-- <ul class="list-unstyled navbar__sub-list js-sub-list"> -->
+                                <!-- <li>
                                 </li>
                                 <li>
                                     <a href="register.html">Register</a>
                                 </li>
                                 <li>
                                     <a href="forget-pass.html">Forget Password</a>
-                                </li>
-                            </ul>
+                                </li> -->
+                            <!-- </ul> -->
                         </li>
-                        <li class="active has-sub">
-                            <a class="js-arrow" href="{{ route('admin.coupon')}}">
-                                <i class="fas fa-tachometer-alt"></i>Coupon</a>
+                        <li class="@yield('coupon_active')">
+                            <a class="" href="{{ route('admin.coupon')}}">
+                                <i class="fas fa-tag"></i>Coupon</a>
                             <!-- <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
                                     <a href="{{route('admin.dashboard')}}">Dashboard 1</a>
                                 </li>
                                
                             </ul> -->
+                        </li>
+
+                        <li class="@yield('size_active')">
+                            <a class="" href="{{ route('admin.size')}}">
+                                <i class="fas fa-window-maximize"></i>Size</a>
+                        </li>
+
+                        <li class="@yield('size_active')">
+                            <a class="" href="{{ route('admin.color')}}">
+                                <i class="fas fa-paint-brush"></i>Color</a>
+                        </li>
+
+                        <li class="@yield('size_active')">
+                            <a class="" href="{{ route('admin.product')}}">
+                                <i class="fa fa-product-hunt"></i>Product</a>
                         </li>
                       
                         
